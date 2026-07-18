@@ -38,35 +38,36 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 <!-- HELL-STATS:START -->
 > These counts describe archived user submissions, not controlled model failure rates.
 
-**Archived reports:** 1
+**Archived reports:** 2
 
-**Last generated:** 2026-07-18T22:05:07Z
+**Last generated:** 2026-07-18T22:09:37Z
 
 ### Agents
 
 | Name | Reports |
 | --- | ---: |
-| codex | 1 |
+| codex | 2 |
 
 ### Models
 
 | Name | Reports |
 | --- | ---: |
-| unknown | 1 |
+| unknown | 2 |
 
 ### Failure categories
 
 | Name | Reports |
 | --- | ---: |
+| hallucinated-result | 2 |
+| instruction-misunderstanding | 2 |
+| tool-misuse | 2 |
 | false-success-claim | 1 |
-| hallucinated-result | 1 |
-| instruction-misunderstanding | 1 |
-| tool-misuse | 1 |
 
 ### Recent reports
 
 | Issue | Agent | Model | Failures | Submitted |
 | --- | --- | --- | --- | --- |
+| [#2](https://github.com/AndrewWayne/hell-claude/issues/2) | codex | unknown | hallucinated-result, tool-misuse, instruction-misunderstanding | 2026-07-18 |
 | [#1](https://github.com/AndrewWayne/hell-claude/issues/1) | codex | unknown | instruction-misunderstanding, hallucinated-result, tool-misuse, false-success-claim | 2026-07-18 |
 <!-- HELL-STATS:END -->
 

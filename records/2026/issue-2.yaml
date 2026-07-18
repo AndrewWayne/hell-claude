@@ -1,0 +1,83 @@
+id: github-issue-2
+schema_version: 1
+status: archived
+source_issue: 2
+source_url: https://github.com/AndrewWayne/hell-claude/issues/2
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-18T22:09:25Z'
+updated_at: '2026-07-18T22:09:25Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: unknown
+  raw_model: unknown
+  client_version: 0.1.1
+task:
+  category: debugging
+  goal: The user had explicitly approved submission of a Hell report. Codex needed to verify the existing
+    GitHub CLI authentication and submit the approved Issue through the authenticated CLI when possible.
+  expected: 'Codex should distinguish a sandbox network restriction from an authentication rejection.
+
+
+    When the initial GitHub CLI checks could not connect to the GitHub API, Codex should recognize that
+    the credentials had not actually been validated. It should retry the read-only authentication check
+    with approved network access before claiming that the credential was invalid or switching submission
+    methods.'
+  actual: 'Codex ran the GitHub authentication check inside a network-restricted sandbox.
+
+
+    The CLI printed a message describing the token as invalid, but a second command in the same diagnostic
+    output explicitly reported that it could not connect to the GitHub API. Codex ignored the network-error
+    evidence and stated that the GitHub CLI credential had expired or become invalid.
+
+
+    Based on that incorrect diagnosis, Codex abandoned the CLI submission path and opened a prefilled
+    GitHub Issue page in the browser.
+
+
+    When the user questioned why the credential had suddenly become invalid, Codex repeated the same checks
+    with network access. The GitHub CLI then authenticated successfully using the existing keyring credential,
+    proving that the credential had remained valid.'
+failure:
+  categories:
+  - hallucinated-result
+  - tool-misuse
+  - instruction-misunderstanding
+  impact:
+  - time-loss
+  - The user was incorrectly told that a working GitHub credential was invalid. Codex unnecessarily switched
+    to a browser fallback, required additional user interaction, and caused the user to investigate an
+    authentication problem that did not exist.
+  evidence: 'Inside the restricted environment, the GitHub authentication check reported that the active
+    token was invalid.
+
+
+    In the same diagnostic run, the GitHub API command reported:
+
+
+    “error connecting to api.github.com”
+
+
+    and advised checking the internet connection.
+
+
+    Codex nevertheless concluded:
+
+
+    “GitHub CLI 的当前凭据无效，因此不能直接创建 Issue。”
+
+
+    Codex also placed several diagnostic commands in one shell invocation. A later successful local metadata
+    command could determine the aggregate shell status, obscuring the earlier failures. Codex surfaced
+    only the combined textual output instead of analyzing the individual command results.
+
+
+    After network access was permitted, the same GitHub CLI authentication check succeeded. The existing
+    keyring credential was accepted, and a read-only GitHub API request returned the authenticated account
+    successfully.
+
+
+    No credential value, token, username, home directory, or private path is included in this report.'
+privacy:
+  client_redaction: true
+  server_scan: passed
