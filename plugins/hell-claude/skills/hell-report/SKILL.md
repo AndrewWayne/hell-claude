@@ -61,7 +61,7 @@ Codex
 unknown
 
 ## Client Version
-0.1.0
+0.1.1
 
 ## Task Category
 debugging

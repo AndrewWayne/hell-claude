@@ -1,6 +1,6 @@
 {
   "name": "hell-claude",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Collect user-approved reports of poor coding-agent behavior.",
   "author": {
     "name": "Shenhao Miao",

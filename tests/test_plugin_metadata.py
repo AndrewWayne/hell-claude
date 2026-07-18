@@ -19,7 +19,10 @@ class PluginMetadataTests(unittest.TestCase):
         self.assertEqual(codex["name"], "hell-claude")
         self.assertEqual(claude["name"], "hell-claude")
         self.assertEqual(codex["version"], claude["version"])
+        self.assertEqual(codex["version"], "0.1.1")
         self.assertRegex(codex["version"], r"^\d+\.\d+\.\d+$")
+        skill = (PLUGIN / "skills/hell-report/SKILL.md").read_text()
+        self.assertIn("## Client Version\n0.1.1", skill)
 
     def test_codex_manifest_uses_supported_fields_and_default_hook_discovery(self):
         manifest = self.read_json(".codex-plugin/plugin.json")
