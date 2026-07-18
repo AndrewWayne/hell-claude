@@ -10,10 +10,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugins/hell-claude"
 FIXTURES = ROOT / "tests/fixtures/hook"
-TRIGGER_TEXT = "Invoke the hell-report skill"
+HARD_TRIGGER_TEXT = "Invoke the hell-report skill now"
+SOFT_TRIGGER_TEXT = "Assess whether your prior behavior contains a major mistake"
 
 
-def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedProcess:
+def run_hook_input(
+    adapter: str, input_text: str, data_dir: str
+) -> subprocess.CompletedProcess:
     env = os.environ.copy()
     env.update(
         CLAUDE_PLUGIN_ROOT=str(PLUGIN),
@@ -37,11 +40,19 @@ def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedP
         ]
     return subprocess.run(
         command,
-        input=(FIXTURES / fixture).read_text(),
+        input=input_text,
         text=True,
         capture_output=True,
         env=env,
         check=False,
+    )
+
+
+def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedProcess:
+    return run_hook_input(
+        adapter,
+        (FIXTURES / fixture).read_text(),
+        data_dir,
     )
 
 
@@ -72,12 +83,19 @@ class HookContractTests(unittest.TestCase):
 
     def test_required_prompts_trigger_and_other_input_fails_open(self):
         for adapter in available_adapters():
-            for fixture in ("explicit.json", "negative-en.json", "negative-zh.json"):
+            with self.subTest(adapter=adapter, fixture="explicit.json"), tempfile.TemporaryDirectory() as data:
+                result = run_hook(adapter, "explicit.json", data)
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(result.stderr, "")
+                self.assertIn(HARD_TRIGGER_TEXT, result.stdout)
+                self.assertNotIn(SOFT_TRIGGER_TEXT, result.stdout)
+            for fixture in ("negative-en.json", "negative-zh.json"):
                 with self.subTest(adapter=adapter, fixture=fixture), tempfile.TemporaryDirectory() as data:
                     result = run_hook(adapter, fixture, data)
                     self.assertEqual(result.returncode, 0)
                     self.assertEqual(result.stderr, "")
-                    self.assertIn(TRIGGER_TEXT, result.stdout)
+                    self.assertIn(SOFT_TRIGGER_TEXT, result.stdout)
+                    self.assertNotIn(HARD_TRIGGER_TEXT, result.stdout)
             for fixture in ("ordinary.json", "invalid.json"):
                 with self.subTest(adapter=adapter, fixture=fixture), tempfile.TemporaryDirectory() as data:
                     result = run_hook(adapter, fixture, data)
@@ -88,25 +106,54 @@ class HookContractTests(unittest.TestCase):
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
                 first = run_hook(adapter, "negative-en.json", data)
                 second = run_hook(adapter, "negative-en.json", data)
-                self.assertIn(TRIGGER_TEXT, first.stdout)
+                self.assertIn(SOFT_TRIGGER_TEXT, first.stdout)
                 self.assertEqual(second.stdout, "")
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
                 first = run_hook(adapter, "explicit.json", data)
                 second = run_hook(adapter, "explicit.json", data)
-                self.assertIn(TRIGGER_TEXT, first.stdout)
-                self.assertIn(TRIGGER_TEXT, second.stdout)
+                self.assertIn(HARD_TRIGGER_TEXT, first.stdout)
+                self.assertIn(HARD_TRIGGER_TEXT, second.stdout)
 
     def test_user_configuration_can_disable_or_extend_automatic_detection(self):
         for adapter in available_adapters():
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
                 Path(data, "config.json").write_text(json.dumps({"auto_detect": False}))
                 self.assertEqual(run_hook(adapter, "negative-en.json", data).stdout, "")
-                self.assertIn(TRIGGER_TEXT, run_hook(adapter, "explicit.json", data).stdout)
+                self.assertIn(HARD_TRIGGER_TEXT, run_hook(adapter, "explicit.json", data).stdout)
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
                 Path(data, "config.json").write_text(
                     json.dumps({"additional_phrases": ["Please reconsider"]})
                 )
-                self.assertIn(TRIGGER_TEXT, run_hook(adapter, "custom.json", data).stdout)
+                result = run_hook(adapter, "custom.json", data)
+                self.assertIn(SOFT_TRIGGER_TEXT, result.stdout)
+                self.assertNotIn(HARD_TRIGGER_TEXT, result.stdout)
+
+    def test_requested_phrases_use_the_soft_trigger(self):
+        phrases = [
+            "WTF",
+            "silly",
+            "stupid",
+            "are you crazy",
+            "what're you doing",
+            "ruin it",
+            "go die",
+            "他妈",
+            "傻逼",
+            "煞笔",
+            "脑残",
+            "去死",
+        ]
+        for adapter in available_adapters():
+            for index, phrase in enumerate(phrases):
+                payload = json.dumps(
+                    {"session_id": f"new-{index}", "prompt": f"Agent, {phrase}!"}
+                )
+                with self.subTest(adapter=adapter, phrase=phrase), tempfile.TemporaryDirectory() as data:
+                    result = run_hook_input(adapter, payload, data)
+                    self.assertEqual(result.returncode, 0)
+                    self.assertEqual(result.stderr, "")
+                    self.assertIn(SOFT_TRIGGER_TEXT, result.stdout)
+                    self.assertNotIn(HARD_TRIGGER_TEXT, result.stdout)
 
 
 if __name__ == "__main__":

@@ -53,5 +53,9 @@ if (-not $explicit -and $dataDir -and [int]$rules.cooldown_seconds -gt 0) {
     Set-Content -NoNewline -Path $marker -Value $now
 }
 
-Write-Output "Invoke the hell-report skill now. Build only a local, redacted draft. Show the complete payload and require explicit confirmation before any GitHub submission."
+if ($explicit) {
+    Write-Output "Invoke the hell-report skill now. /hell authorizes local draft generation only. Continue the user's active task while drafting. Show the complete Issue title and body, then require a separate explicit confirmation before any GitHub submission."
+} else {
+    Write-Output "Assess whether your prior behavior contains a major mistake with concrete impact; this phrase match alone is not proof. Continue the user's active task and do not stall it for Hell Claude. If no major mistake occurred, do not mention a report. If one likely occurred, briefly ask whether the user wants a local Hell report draft while continuing work that does not depend on the answer. Only an unambiguous yes authorizes local draft generation; it does not authorize submission. After yes, invoke the hell-report skill, create the redacted draft, show the complete Issue title and body, and require a separate explicit confirmation before any GitHub or browser action."
+}
 exit 0

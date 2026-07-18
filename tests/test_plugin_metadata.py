@@ -31,10 +31,25 @@ class PluginMetadataTests(unittest.TestCase):
     def test_phrase_rules_are_unique(self):
         rules = self.read_json("hooks/phrases.json")
         normalized = [phrase.casefold().strip() for phrase in rules["phrases"]]
+        requested = {
+            "wtf",
+            "silly",
+            "stupid",
+            "are you crazy",
+            "what're you doing",
+            "ruin it",
+            "go die",
+            "他妈",
+            "傻逼",
+            "煞笔",
+            "脑残",
+            "去死",
+        }
         self.assertEqual(rules["version"], 1)
         self.assertEqual(rules["cooldown_seconds"], 300)
         self.assertEqual(len(normalized), len(set(normalized)))
         self.assertNotIn("/hell", normalized)
+        self.assertTrue(requested.issubset(set(normalized)))
 
     def test_hook_config_has_posix_and_windows_commands(self):
         config = self.read_json("hooks/hooks.json")

@@ -86,6 +86,23 @@ class SkillContractTests(unittest.TestCase):
         ):
             self.assertIn(value, gate)
 
+    def test_draft_permission_is_separate_and_does_not_stall_active_work(self):
+        text = self.read_skill()
+        draft_gate = text.index("## Draft authorization")
+        collect = text.index("## Collect")
+        submit = text.index("## Submit")
+        self.assertLess(draft_gate, collect)
+        self.assertLess(collect, submit)
+        required = [
+            "unambiguous yes",
+            "authorizes local draft generation only",
+            "does not authorize submission",
+            "continue the user's active task",
+            "must not stall",
+            "complete Issue title and body",
+        ]
+        self.assertEqual([value for value in required if value not in text], [])
+
 
 if __name__ == "__main__":
     unittest.main()

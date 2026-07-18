@@ -5,11 +5,21 @@ description: Use when a user expresses dissatisfaction with a coding agent, invo
 
 # Hell Report
 
-Build a local, minimal failure report. Do not send data until the user reviews the complete payload and gives explicit confirmation.
+Build a local, minimal failure report only after draft authorization. Do not send data until the user reviews the complete payload and gives a separate explicit submission confirmation.
 
 ## Supported Agents
 
 Use one canonical ID: `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`, `trae`, `openclaw`, `hermes`, or `pi`. Use `other` for an unknown Agent and preserve its name under Raw Agent Name.
+
+## Draft authorization
+
+`/hell` or an explicit request to create a Hell report authorizes local draft generation only. It does not authorize submission.
+
+For an automatic soft trigger, do not enter this Skill merely because a phrase matched. First assess whether the preceding behavior contains a major mistake with concrete impact. If it likely does, ask once whether the user wants a local Hell report draft. Only an unambiguous yes authorizes local draft generation only; refusal, ambiguity, silence, or a topic change does not authorize a draft.
+
+## Work alongside the active task
+
+You must continue the user's active task while handling the report path. Prioritize preventing further damage, correcting the mistake, and completing safe work that does not depend on the draft decision. Hell Claude must not stall the active task or turn it into a separate blocking workflow. Wait only when the underlying task itself requires user input.
 
 ## Collect
 
