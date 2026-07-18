@@ -19,7 +19,7 @@ Restart the ChatGPT desktop app, open the Plugins Directory, choose the Hell Cla
 
 ## Verify
 
-Start a new Codex session and enter `/hell`. A successful installation asks whether to build a draft. Cancel the draft and confirm that no Issue was opened. You can also inspect the installed plugin in the Plugins Directory.
+Start a new Codex session and enter `/hell`. `/hell` immediately starts a local draft but does not authorize submission. After the draft appears, choose cancel and confirm that no Issue was opened. You can also inspect the installed plugin in the Plugins Directory.
 
 ## Update
 

@@ -1,6 +1,6 @@
 # Hell Claude
 
-Hell Claude is a public archive for coding-agent failures that users decide are worth preserving. Its client plugin notices explicit frustration or `/hell`, prepares a small redacted report, and asks for confirmation before opening a GitHub Issue. A GitHub Action validates accepted Issues, archives them as structured YAML, and rebuilds the tables below.
+Hell Claude is a public archive for coding-agent failures that users decide are worth preserving. Its client plugin detects explicit frustration, helps the Agent decide whether a report is warranted, and keeps drafting separate from submission. A GitHub Action validates accepted Issues, archives them as structured YAML, and rebuilds the tables below.
 
 These are user-submitted incidents, not controlled experiments. The statistics are not a benchmark and must not be read as model failure rates.
 
@@ -15,17 +15,19 @@ Both packages contain a `UserPromptSubmit` Hook and the same `hell-report` Skill
 
 ## Verification
 
-After installation, start a new client session and enter `/hell`. The Agent should offer to build a Hell report draft. It must show the complete title and body and wait for the exact confirmation “Submit this Hell report” before any network action.
+After installation, start a new client session and enter `/hell`. `/hell` immediately starts a local draft; it does not submit anything. The Agent must show the complete title and body and wait for the exact confirmation “Submit this Hell report” before any network action.
 
 ## Usage
 
-Automatic detection uses a small English and Chinese phrase list and a five-minute cooldown. `/hell` always bypasses the cooldown. The Skill looks backward through at most 20 user messages—never 20 full turns—and selects only evidence needed to explain the failure.
+Automatic detection uses an English and Chinese phrase list and a five-minute cooldown. An automatic match is a soft trigger: it asks the Agent whether its preceding behavior contains a major mistake, but the matched phrase alone is not proof. If the Agent thinks the mistake is substantial, it asks for draft authorization while continuing the user's active task without stalling it. An unambiguous yes authorizes a local draft only and does not authorize submission.
+
+`/hell` is the hard trigger. It bypasses cooldown and authorizes immediate local drafting. The Skill looks backward through at most 20 user messages—never 20 full turns—and selects only evidence needed to explain the failure.
 
 The preferred submission path is an already authenticated GitHub CLI session. Run `gh auth login` yourself if needed. When `gh` is unavailable or logged out, the Skill opens a prefilled browser form and leaves the final GitHub Submit click to you.
 
 ## Privacy
 
-Nothing is submitted merely because the Hook matched. The draft is redacted locally and requires explicit confirmation. The server then performs a second, fail-closed scan before writing a record. Read [PRIVACY.md](PRIVACY.md) before sending private or work-related material.
+Nothing is drafted merely because a soft trigger matched, and nothing is submitted because the user authorized a draft. The draft is redacted locally; submission requires a separate explicit confirmation. The server then performs a second, fail-closed scan before writing a record. Read [PRIVACY.md](PRIVACY.md) before sending private or work-related material.
 
 ## Supported Agents
 

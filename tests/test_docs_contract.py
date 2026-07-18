@@ -27,6 +27,26 @@ class DocumentationContractTests(unittest.TestCase):
         ]
         self.assertEqual([value for value in required if value not in text], [])
 
+    def test_public_docs_explain_dual_trigger_authorization(self):
+        readme = (ROOT / "README.md").read_text()
+        privacy = (ROOT / "PRIVACY.md").read_text()
+        for value in (
+            "soft trigger",
+            "major mistake",
+            "draft authorization",
+            "does not authorize submission",
+            "without stalling",
+        ):
+            self.assertIn(value, readme)
+        self.assertIn("does not run the Skill", privacy)
+        self.assertIn("local draft only", privacy)
+        self.assertIn("separate explicit confirmation", privacy)
+
+        codex = (ROOT / "docs/install/codex.md").read_text()
+        claude = (ROOT / "docs/install/claude-code.md").read_text()
+        for guide in (codex, claude):
+            self.assertIn("`/hell` immediately starts a local draft", guide)
+
     def test_install_guides_cover_supported_clients_and_platforms(self):
         common = ["macOS", "Linux", "Windows", "/hell", "trust", "Update", "Uninstall"]
         guides = {

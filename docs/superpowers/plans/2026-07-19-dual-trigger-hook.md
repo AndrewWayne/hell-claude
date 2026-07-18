@@ -105,7 +105,36 @@ git add plugins/hell-claude tests/test_plugin_metadata.py tests/test_hook_contra
 git commit -m "feat: add soft complaint trigger flow"
 ```
 
-### Task 4: Acceptance Audit
+### Task 4: Public Behavior Documentation
+
+**Files:**
+- Modify: `README.md`
+- Modify: `PRIVACY.md`
+- Modify: `docs/install/codex.md`
+- Modify: `docs/install/claude-code.md`
+- Test: `tests/test_docs_contract.py`
+
+**Interfaces:**
+- Produces: public explanation of soft/hard triggers, two authorization gates, and non-stalling behavior.
+
+- [ ] **Step 1: Write the failing documentation contract**
+
+Require README and privacy text to distinguish soft assessment, local draft authorization, and separate submission confirmation. Require both client guides to state that `/hell` starts a local draft immediately.
+
+- [ ] **Step 2: Verify red, update docs, and verify green**
+
+Run: `python3 -m unittest tests.test_docs_contract -v`
+
+Expected before documentation edits: FAIL. Expected after edits: PASS.
+
+- [ ] **Step 3: Commit**
+
+```text
+git add README.md PRIVACY.md docs/install tests/test_docs_contract.py docs/superpowers/plans/2026-07-19-dual-trigger-hook.md
+git commit -m "docs: explain dual-trigger authorization"
+```
+
+### Task 5: Acceptance Audit
 
 **Files:**
 - Create: `docs/evals/dual-trigger-audit.md`
