@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/crying-agent.png" alt="Hell Claude crying agent logo" width="240">
+</p>
+
 # Hell Claude
 
 Hell Claude is a public archive for coding-agent failures that users decide are worth preserving. Its client plugin detects explicit frustration, helps the Agent decide whether a report is warranted, and keeps drafting separate from submission. A GitHub Action validates accepted Issues, archives them as structured YAML, and rebuilds the tables below.
