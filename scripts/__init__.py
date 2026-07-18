@@ -1,0 +1,1 @@
+"""Hell Claude automation scripts."""

@@ -1,0 +1,29 @@
+version: 1
+agents:
+  claude-code:
+    display_name: Claude Code
+    aliases: [claude, claude_code, claudecode]
+  codex:
+    display_name: Codex
+    aliases: [codex-cli, codex cli, openai codex]
+  opencode:
+    display_name: OpenCode
+    aliases: [open-code, open_code]
+  forgecode:
+    display_name: ForgeCode
+    aliases: [forge-code, forge_code]
+  kimi-code:
+    display_name: Kimi Code
+    aliases: [kimi, kimi-cli, kimi_code]
+  trae:
+    display_name: Trae
+    aliases: [trae-ai, trae ai]
+  openclaw:
+    display_name: OpenClaw
+    aliases: [open-claw, open_claw]
+  hermes:
+    display_name: Hermes
+    aliases: [hermes-agent, hermes agent]
+  pi:
+    display_name: Pi
+    aliases: [pi-agent, pi agent]

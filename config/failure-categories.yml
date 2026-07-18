@@ -1,0 +1,12 @@
+version: 1
+categories:
+  - instruction-misunderstanding
+  - context-loss
+  - hallucinated-result
+  - incorrect-code
+  - destructive-action
+  - tool-misuse
+  - repetitive-loop
+  - false-success-claim
+  - privacy-or-security
+  - other

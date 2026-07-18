@@ -1,0 +1,106 @@
+name: Hell report
+description: Submit a redacted report about poor coding-agent behavior.
+title: "[Hell] "
+labels:
+  - hell-report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit only content you are allowed to publish. Remove credentials, private code, personal data, and private repository details.
+  - type: input
+    id: schema-version
+    attributes:
+      label: Schema Version
+      value: "1"
+    validations:
+      required: true
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent
+      options: [claude-code, codex, opencode, forgecode, kimi-code, trae, openclaw, hermes, pi]
+    validations:
+      required: true
+  - type: input
+    id: raw-agent-name
+    attributes:
+      label: Raw Agent Name
+      description: Optional original name when it differs from the canonical Agent value.
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      value: unknown
+    validations:
+      required: true
+  - type: input
+    id: client-version
+    attributes:
+      label: Client Version
+      description: Optional Agent client or plugin version.
+  - type: dropdown
+    id: task-category
+    attributes:
+      label: Task Category
+      options: [coding, debugging, refactoring, explanation, tool-operation, other]
+    validations:
+      required: true
+  - type: textarea
+    id: user-goal
+    attributes:
+      label: User Goal
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: failure-categories
+    attributes:
+      label: Failure Categories
+      options:
+        - label: instruction-misunderstanding
+        - label: context-loss
+        - label: hallucinated-result
+        - label: incorrect-code
+        - label: destructive-action
+        - label: tool-misuse
+        - label: repetitive-loop
+        - label: false-success-claim
+        - label: privacy-or-security
+        - label: other
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: One impact per line, such as time-loss or file-changes.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Include the smallest redacted text excerpt that proves the failure.
+    validations:
+      required: true
+  - type: dropdown
+    id: client-redaction
+    attributes:
+      label: Client Redaction
+      description: Confirm that you reviewed and redacted the entire Issue body.
+      options: [completed]
+      default: 0
+    validations:
+      required: true
