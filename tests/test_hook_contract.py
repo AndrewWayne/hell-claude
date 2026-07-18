@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PLUGIN = ROOT / "plugins/hell-claude"
 FIXTURES = ROOT / "tests/fixtures/hook"
 TRIGGER_TEXT = "Invoke the hell-report skill"
 
@@ -15,13 +16,13 @@ TRIGGER_TEXT = "Invoke the hell-report skill"
 def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedProcess:
     env = os.environ.copy()
     env.update(
-        CLAUDE_PLUGIN_ROOT=str(ROOT),
-        CODEX_PLUGIN_ROOT=str(ROOT),
+        CLAUDE_PLUGIN_ROOT=str(PLUGIN),
+        CODEX_PLUGIN_ROOT=str(PLUGIN),
         PLUGIN_DATA=data_dir,
         CLAUDE_PLUGIN_DATA=data_dir,
     )
     if adapter == "posix":
-        command = ["bash", str(ROOT / "hooks/detect-complaint.sh")]
+        command = ["bash", str(PLUGIN / "hooks/detect-complaint.sh")]
     else:
         executable = shutil.which("pwsh") or shutil.which("powershell")
         if not executable:
@@ -32,7 +33,7 @@ def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedP
             "-ExecutionPolicy",
             "Bypass",
             "-File",
-            str(ROOT / "hooks/detect-complaint.ps1"),
+            str(PLUGIN / "hooks/detect-complaint.ps1"),
         ]
     return subprocess.run(
         command,

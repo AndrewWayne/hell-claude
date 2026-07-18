@@ -1,0 +1,20 @@
+{
+  "name": "hell-claude",
+  "interface": {
+    "displayName": "Hell Claude"
+  },
+  "plugins": [
+    {
+      "name": "hell-claude",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hell-claude"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -3,20 +3,18 @@ name: Client plugin tests
 on:
   push:
     paths:
-      - ".codex-plugin/**"
+      - ".agents/plugins/**"
       - ".claude-plugin/**"
-      - "hooks/**"
-      - "skills/**"
+      - "plugins/hell-claude/**"
       - "tests/test_hook_contract.py"
       - "tests/test_plugin_metadata.py"
       - "tests/test_skill_contract.py"
       - ".github/workflows/client-plugin-tests.yml"
   pull_request:
     paths:
-      - ".codex-plugin/**"
+      - ".agents/plugins/**"
       - ".claude-plugin/**"
-      - "hooks/**"
-      - "skills/**"
+      - "plugins/hell-claude/**"
       - "tests/**"
       - ".github/workflows/client-plugin-tests.yml"
   workflow_dispatch:

@@ -262,6 +262,8 @@ class GitHubContractTests(unittest.TestCase):
         self.assertIn("edited", text)
         self.assertIn("reopened", text)
         self.assertIn("scripts/archive_issue.py", text)
+        self.assertIn("scripts/update_readme.py", text)
+        self.assertIn('README.md docs/agents', text)
         self.assertIn("actions/github-script", text)
         self.assertIn("startsWith(github.event.issue.title, '[Hell]')", text)
         self.assertIn("contains(github.event.issue.labels.*.name, 'hell-report')", text)

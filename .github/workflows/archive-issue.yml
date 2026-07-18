@@ -41,14 +41,23 @@ jobs:
           echo "status=$(jq -r '.status' "$RUNNER_TEMP/archive-result.json")" >> "$GITHUB_OUTPUT"
           echo "changed=$(jq -r '.changed // false' "$RUNNER_TEMP/archive-result.json")" >> "$GITHUB_OUTPUT"
           echo "record=$(jq -r '.record // ""' "$RUNNER_TEMP/archive-result.json")" >> "$GITHUB_OUTPUT"
-      - name: Commit archived record
+      - name: Generate archive indexes
+        if: steps.result.outputs.status == 'archived' && steps.result.outputs.changed == 'true'
+        run: >-
+          python scripts/update_readme.py
+          --records "$GITHUB_WORKSPACE/records"
+          --readme "$GITHUB_WORKSPACE/README.md"
+          --agents-dir "$GITHUB_WORKSPACE/docs/agents"
+          --agents-config "$GITHUB_WORKSPACE/config/agents.yml"
+          --repository "$GITHUB_REPOSITORY"
+      - name: Commit archived record and indexes
         if: steps.result.outputs.status == 'archived' && steps.result.outputs.changed == 'true'
         env:
           RECORD_PATH: ${{ steps.result.outputs.record }}
         run: |
           git config user.name "hell-claude[bot]"
           git config user.email "hell-claude[bot]@users.noreply.github.com"
-          git add -- "$RECORD_PATH"
+          git add -- "$RECORD_PATH" README.md docs/agents
           git commit -m "data: archive Issue #${{ github.event.issue.number }}"
           for attempt in 1 2 3; do
             git pull --rebase origin "${{ github.event.repository.default_branch }}"

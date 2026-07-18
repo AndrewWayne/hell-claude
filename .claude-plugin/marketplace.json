@@ -1,0 +1,16 @@
+{
+  "name": "hell-claude",
+  "owner": {
+    "name": "Shenhao Miao"
+  },
+  "description": "Privacy-reviewed reports of poor coding-agent behavior.",
+  "plugins": [
+    {
+      "name": "hell-claude",
+      "source": "./plugins/hell-claude",
+      "description": "Draft and submit a Hell report only after explicit confirmation.",
+      "category": "development",
+      "tags": ["agent", "feedback", "codex", "claude-code"]
+    }
+  ]
+}

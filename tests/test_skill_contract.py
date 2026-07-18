@@ -3,11 +3,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PLUGIN = ROOT / "plugins/hell-claude"
 
 
 class SkillContractTests(unittest.TestCase):
     def read_skill(self):
-        path = ROOT / "skills/hell-report/SKILL.md"
+        path = PLUGIN / "skills/hell-report/SKILL.md"
         self.assertTrue(path.is_file(), "missing skills/hell-report/SKILL.md")
         return path.read_text()
 
@@ -55,6 +56,7 @@ class SkillContractTests(unittest.TestCase):
             "Agent",
             "Raw Agent Name",
             "Model",
+            "Client Version",
             "Task Category",
             "User Goal",
             "Expected Behavior",
@@ -65,6 +67,10 @@ class SkillContractTests(unittest.TestCase):
             "Client Redaction",
         ]
         self.assertEqual([value for value in agents + headings if value not in text], [])
+
+    def test_submission_title_is_routable_by_the_archive_workflow(self):
+        text = self.read_skill()
+        self.assertIn('--title "[Hell] TITLE"', text)
 
 
 if __name__ == "__main__":

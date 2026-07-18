@@ -4,11 +4,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PLUGIN = ROOT / "plugins/hell-claude"
 
 
 class PluginMetadataTests(unittest.TestCase):
     def read_json(self, relative_path):
-        path = ROOT / relative_path
+        path = PLUGIN / relative_path
         self.assertTrue(path.is_file(), f"missing {relative_path}")
         return json.loads(path.read_text())
 
@@ -42,6 +43,24 @@ class PluginMetadataTests(unittest.TestCase):
         command = group["hooks"][0]
         self.assertIn("detect-complaint.sh", command["command"])
         self.assertIn("detect-complaint.ps1", command["commandWindows"])
+
+    def test_both_marketplaces_publish_the_same_nested_plugin(self):
+        codex = json.loads(
+            (ROOT / ".agents/plugins/marketplace.json").read_text()
+        )
+        claude = json.loads(
+            (ROOT / ".claude-plugin/marketplace.json").read_text()
+        )
+        self.assertEqual(codex["name"], "hell-claude")
+        self.assertEqual(claude["name"], "hell-claude")
+        self.assertEqual(codex["plugins"][0]["name"], "hell-claude")
+        self.assertEqual(claude["plugins"][0]["name"], "hell-claude")
+        self.assertEqual(
+            codex["plugins"][0]["source"]["path"], "./plugins/hell-claude"
+        )
+        self.assertEqual(
+            claude["plugins"][0]["source"], "./plugins/hell-claude"
+        )
 
     def test_client_ci_runs_linux_and_windows_contracts(self):
         path = ROOT / ".github/workflows/client-plugin-tests.yml"
