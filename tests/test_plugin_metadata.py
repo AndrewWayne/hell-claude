@@ -9,7 +9,7 @@ PLUGIN = ROOT / "plugins/hell-claude"
 
 
 class PluginMetadataTests(unittest.TestCase):
-    def test_client_tests_use_explicit_utf8_for_text_files(self):
+    def test_client_tests_use_explicit_utf8_for_text_io(self):
         missing = []
         for filename in (
             "test_plugin_metadata.py",
@@ -23,10 +23,18 @@ class PluginMetadataTests(unittest.TestCase):
                     continue
                 if not isinstance(node.func, ast.Attribute):
                     continue
-                if node.func.attr not in {"read_text", "write_text"}:
-                    continue
-                keywords = {keyword.arg for keyword in node.keywords}
-                if "encoding" not in keywords:
+                keywords = {keyword.arg: keyword.value for keyword in node.keywords}
+                if node.func.attr in {"read_text", "write_text"}:
+                    if "encoding" not in keywords:
+                        missing.append(f"{filename}:{node.lineno}")
+                if (
+                    node.func.attr == "run"
+                    and isinstance(node.func.value, ast.Name)
+                    and node.func.value.id == "subprocess"
+                    and isinstance(keywords.get("text"), ast.Constant)
+                    and keywords["text"].value is True
+                    and "encoding" not in keywords
+                ):
                     missing.append(f"{filename}:{node.lineno}")
         self.assertEqual(missing, [])
 
