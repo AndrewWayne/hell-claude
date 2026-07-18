@@ -20,7 +20,7 @@ Restart Claude Code or run `/reload-plugins`. Open `/hooks` to inspect the Hook 
 
 ## Verify
 
-Start a new session and enter `/hell`. `/hell` immediately starts a local draft but does not authorize submission. After the draft appears, choose cancel and confirm that no Issue was opened. `/plugin` should also list `hell-claude@hell-claude` as installed.
+Start a new session and enter `/hell`. `/hell` immediately starts a local draft but does not authorize submission. After the complete draft appears, the Agent asks whether to submit it now; answer cancel and confirm that no Issue was opened. A direct affirmative response would authorize submission without a fixed phrase. `/plugin` should also list `hell-claude@hell-claude` as installed.
 
 ## Update
 

@@ -50,6 +50,8 @@ class AcceptanceContractTests(unittest.TestCase):
             "role=user",
             "not 20 turns",
             "explicit confirmation",
+            "direct affirmative response",
+            "No fixed phrase is required",
             "50,000",
             "gh issue create",
             "browser",

@@ -11,8 +11,52 @@ input="$(cat)"
 
 command -v jq >/dev/null 2>&1 || exit 0
 [ -f "$rules" ] || exit 0
-prompt="$(printf '%s' "$input" | jq -er '.prompt | strings' 2>/dev/null)" || exit 0
+printf '%s' "$input" | jq -e . >/dev/null 2>&1 || exit 0
+event="$(printf '%s' "$input" | jq -r '.hook_event_name // empty | strings' 2>/dev/null)" || exit 0
 session="$(printf '%s' "$input" | jq -r '.session_id // "unknown"' 2>/dev/null)" || exit 0
+if [ -z "$event" ] && printf '%s' "$input" | jq -e '.prompt | strings' >/dev/null 2>&1; then
+  event="UserPromptSubmit"
+fi
+safe_session="$(printf '%s' "$session" | tr -cd 'A-Za-z0-9._-')"
+model_file="$data_dir/runtime-model-${safe_session:-unknown}"
+
+public_model() {
+  candidate="$1"
+  case "$candidate" in
+    ""|[!A-Za-z0-9]*|*[!A-Za-z0-9._:/+-]*) printf '%s' "unknown" ;;
+    *)
+      if [ "${#candidate}" -le 128 ]; then
+        printf '%s' "$candidate"
+      else
+        printf '%s' "unknown"
+      fi
+      ;;
+  esac
+}
+
+raw_model="$(printf '%s' "$input" | jq -r '.model // empty | strings' 2>/dev/null)" || raw_model=""
+
+if [ "$event" = "SessionStart" ]; then
+  runtime_model="$(public_model "$raw_model")"
+  if [ -n "$data_dir" ] && [ "$runtime_model" != "unknown" ]; then
+    mkdir -p "$data_dir" 2>/dev/null || exit 0
+    printf '%s' "$runtime_model" >"$model_file" 2>/dev/null || true
+  fi
+  exit 0
+fi
+
+[ "$event" = "UserPromptSubmit" ] || exit 0
+prompt="$(printf '%s' "$input" | jq -er '.prompt | strings' 2>/dev/null)" || exit 0
+
+if [ -n "$raw_model" ]; then
+  runtime_model="$(public_model "$raw_model")"
+elif [ -n "$data_dir" ] && [ -f "$model_file" ]; then
+  cached_model="$(cat "$model_file" 2>/dev/null || true)"
+  runtime_model="$(public_model "$cached_model")"
+else
+  runtime_model="unknown"
+fi
+model_context="Runtime model for report: $runtime_model. Use it exactly as the report Model; do not infer a different model."
 
 if printf '%s' "$prompt" | grep -Fqi -- '/hell'; then
   explicit=true
@@ -45,7 +89,6 @@ if [ "$explicit" = false ] && [ -n "$data_dir" ]; then
   cooldown="$(jq -r '.cooldown_seconds // 0' "$rules" 2>/dev/null)" || exit 0
   if [ "$cooldown" -gt 0 ] 2>/dev/null; then
     mkdir -p "$data_dir" 2>/dev/null || true
-    safe_session="$(printf '%s' "$session" | tr -cd 'A-Za-z0-9._-')"
     marker="$data_dir/last-trigger-${safe_session:-unknown}"
     now="$(date +%s)"
     if [ -f "$marker" ]; then
@@ -57,8 +100,8 @@ if [ "$explicit" = false ] && [ -n "$data_dir" ]; then
 fi
 
 if [ "$explicit" = true ]; then
-  printf '%s\n' "Invoke the hell-report skill now. /hell authorizes local draft generation only. Continue the user's active task while drafting. Show the complete Issue title and body, then require a separate explicit confirmation before any GitHub submission."
+  printf '%s\n' "Invoke the hell-report skill now. $model_context /hell authorizes local draft generation only. Continue the user's active task while drafting. Show the complete Issue title and body, ask whether to submit it now, and treat a direct affirmative response as submission authorization. No fixed phrase is required."
 else
-  printf '%s\n' "Assess whether your prior behavior contains a major mistake with concrete impact; this phrase match alone is not proof. Continue the user's active task and do not stall it for Hell Claude. If no major mistake occurred, do not mention a report. If one likely occurred, briefly ask whether the user wants a local Hell report draft while continuing work that does not depend on the answer. Only an unambiguous yes authorizes local draft generation; it does not authorize submission. After yes, invoke the hell-report skill, create the redacted draft, show the complete Issue title and body, and require a separate explicit confirmation before any GitHub or browser action."
+  printf '%s\n' "Assess whether your prior behavior contains a major mistake with concrete impact; this phrase match alone is not proof. $model_context Continue the user's active task and do not stall it for Hell Claude. If no major mistake occurred, do not mention a report. If one likely occurred, briefly ask whether the user wants a local Hell report draft while continuing work that does not depend on the answer. Only an unambiguous yes authorizes local draft generation; it does not authorize submission. After yes, invoke the hell-report skill, create the redacted draft, show the complete Issue title and body, ask whether to submit it now, and treat a direct affirmative response as submission authorization. No fixed phrase is required."
 fi
 exit 0

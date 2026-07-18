@@ -25,6 +25,8 @@ class SkillContractTests(unittest.TestCase):
             "not 20 turns",
             "50,000",
             "explicit confirmation",
+            "direct affirmative response",
+            "No fixed phrase is required",
             "ambiguous",
             "cancel",
             "API key",
@@ -72,6 +74,15 @@ class SkillContractTests(unittest.TestCase):
         text = self.read_skill()
         self.assertIn('--title "[Hell] TITLE"', text)
 
+    def test_skill_uses_only_the_validated_hook_model(self):
+        text = self.read_skill()
+        for value in (
+            "validated runtime model provided by the Hook",
+            "Use `unknown` when the Hook does not provide one",
+            "Do not guess",
+        ):
+            self.assertIn(value, text)
+
     def test_confirmation_gate_precedes_every_submission_path(self):
         text = self.read_skill()
         confirm = text.index("## Confirm")
@@ -79,12 +90,18 @@ class SkillContractTests(unittest.TestCase):
         self.assertLess(confirm, submit)
         gate = text[confirm:submit]
         for value in (
-            "Only an explicit confirmation",
+            "ask whether to submit it now",
+            "direct affirmative response",
+            "No fixed phrase is required",
             "ambiguous reply",
             "On cancel",
             "perform no network action",
+            "show the changed payload and ask again",
+            "request to edit the draft",
         ):
             self.assertIn(value, gate)
+
+        self.assertNotIn("Submit this Hell report", gate)
 
     def test_draft_permission_is_separate_and_does_not_stall_active_work(self):
         text = self.read_skill()

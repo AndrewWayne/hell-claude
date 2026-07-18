@@ -15,7 +15,7 @@ Both packages contain a `UserPromptSubmit` Hook and the same `hell-report` Skill
 
 ## Verification
 
-After installation, start a new client session and enter `/hell`. `/hell` immediately starts a local draft; it does not submit anything. The Agent must show the complete title and body and wait for the exact confirmation “Submit this Hell report” before any network action.
+After installation, start a new client session and enter `/hell`. `/hell` immediately starts a local draft; it does not submit anything. The Agent shows the complete title and body, then asks whether to submit it now. A direct affirmative response to that question authorizes submission; no fixed phrase is required.
 
 ## Usage
 
@@ -27,7 +27,7 @@ The preferred submission path is an already authenticated GitHub CLI session. Ru
 
 ## Privacy
 
-Nothing is drafted merely because a soft trigger matched, and nothing is submitted because the user authorized a draft. The draft is redacted locally; submission requires a separate explicit confirmation. The server then performs a second, fail-closed scan before writing a record. Read [PRIVACY.md](PRIVACY.md) before sending private or work-related material.
+Nothing is drafted merely because a soft trigger matched, and nothing is submitted because the user authorized a draft. The draft is redacted locally; submission requires a separate explicit confirmation to the Agent's submission question. The server then performs a second, fail-closed scan before writing a record. Read [PRIVACY.md](PRIVACY.md) before sending private or work-related material.
 
 ## Supported Agents
 

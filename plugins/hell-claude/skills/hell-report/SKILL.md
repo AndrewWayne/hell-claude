@@ -45,6 +45,8 @@ Keep the final Issue body at or below 50,000 characters. Remove old and repeated
 
 ## Draft
 
+Set Model to the validated runtime model provided by the Hook. Use `unknown` when the Hook does not provide one. Do not guess or derive a model identifier from unrelated context.
+
 Use exactly these headings:
 
 ```markdown
@@ -105,15 +107,17 @@ Failure Categories may contain one or more lines from:
 
 ## Confirm
 
-Show the complete Issue title and body. Offer three choices: edit, cancel, or submit.
+Show the complete Issue title and body, then ask whether to submit it now. Also allow the user to edit or cancel.
 
-Only an explicit confirmation such as “Submit this Hell report” authorizes submission. A vague or ambiguous reply, silence, topic change, approval of the wording, or approval of an earlier plan does not count as explicit confirmation. On cancel, discard the draft and perform no network action.
+A direct affirmative response to that immediately preceding submission question, such as “yes,” “可以,” or “提交吧,” authorizes submission. No fixed phrase is required. A vague or ambiguous reply, silence, topic change, a request to edit the draft, a response that only approves the wording, or approval of an earlier plan does not count as explicit confirmation. On cancel, discard the draft and perform no network action.
+
+Whenever the title or body changes, show the changed payload and ask again before any network action. The new preview must be complete.
 
 ## Submit
 
 Use the repository from `HELL_CLAUDE_REPOSITORY`; default to `AndrewWayne/hell-claude`.
 
-After explicit confirmation:
+After that explicit confirmation:
 
 1. Run `gh auth status`.
 2. If authenticated, write the approved body to a temporary local file and run:

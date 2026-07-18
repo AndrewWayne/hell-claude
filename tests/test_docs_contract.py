@@ -40,12 +40,19 @@ class DocumentationContractTests(unittest.TestCase):
             self.assertIn(value, readme)
         self.assertIn("does not run the Skill", privacy)
         self.assertIn("local draft only", privacy)
-        self.assertIn("separate explicit confirmation", privacy)
+        self.assertIn("direct affirmative response", privacy)
+        self.assertIn("No fixed phrase is required", privacy)
+        self.assertIn("runtime model identifier", privacy)
+        self.assertIn("128", privacy)
 
         codex = (ROOT / "docs/install/codex.md").read_text()
         claude = (ROOT / "docs/install/claude-code.md").read_text()
         for guide in (codex, claude):
             self.assertIn("`/hell` immediately starts a local draft", guide)
+
+        self.assertIn("asks whether to submit it now", readme)
+        self.assertNotIn("exact confirmation", readme)
+        self.assertNotIn("Submit this Hell report", readme)
 
     def test_install_guides_cover_supported_clients_and_platforms(self):
         common = ["macOS", "Linux", "Windows", "/hell", "trust", "Update", "Uninstall"]
@@ -67,6 +74,7 @@ class DocumentationContractTests(unittest.TestCase):
         privacy = (ROOT / "PRIVACY.md").read_text()
         for value in (
             "explicit confirmation",
+            "direct affirmative response",
             "what leaves your machine",
             "deletion",
             "Git history",

@@ -1,6 +1,19 @@
 {
   "description": "Detect user dissatisfaction and request a local Hell report draft.",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PLUGIN_ROOT/hooks/detect-complaint.sh\"",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"$env:CLAUDE_PLUGIN_ROOT\\hooks\\detect-complaint.ps1\"",
+            "timeout": 5,
+            "statusMessage": "Capturing Hell report runtime metadata"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [

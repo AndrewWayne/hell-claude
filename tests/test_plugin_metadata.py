@@ -87,11 +87,13 @@ class PluginMetadataTests(unittest.TestCase):
 
     def test_hook_config_has_posix_and_windows_commands(self):
         config = self.read_json("hooks/hooks.json")
-        group = config["hooks"]["UserPromptSubmit"][0]
-        self.assertNotIn("matcher", group)
-        command = group["hooks"][0]
-        self.assertIn("detect-complaint.sh", command["command"])
-        self.assertIn("detect-complaint.ps1", command["commandWindows"])
+        for event in ("SessionStart", "UserPromptSubmit"):
+            with self.subTest(event=event):
+                group = config["hooks"][event][0]
+                self.assertNotIn("matcher", group)
+                command = group["hooks"][0]
+                self.assertIn("detect-complaint.sh", command["command"])
+                self.assertIn("detect-complaint.ps1", command["commandWindows"])
 
     def test_both_marketplaces_publish_the_same_nested_plugin(self):
         codex = json.loads(
