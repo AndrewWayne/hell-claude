@@ -51,7 +51,7 @@ def run_hook_input(
 def run_hook(adapter: str, fixture: str, data_dir: str) -> subprocess.CompletedProcess:
     return run_hook_input(
         adapter,
-        (FIXTURES / fixture).read_text(),
+        (FIXTURES / fixture).read_text(encoding="utf-8"),
         data_dir,
     )
 
@@ -75,7 +75,7 @@ class HookContractTests(unittest.TestCase):
         ]
         for name in ("detect-complaint.sh", "detect-complaint.ps1"):
             with self.subTest(name=name):
-                text = (PLUGIN / "hooks" / name).read_text()
+                text = (PLUGIN / "hooks" / name).read_text(encoding="utf-8")
                 self.assertEqual(
                     [value for value in forbidden if value.casefold() in text.casefold()],
                     [],
@@ -117,12 +117,15 @@ class HookContractTests(unittest.TestCase):
     def test_user_configuration_can_disable_or_extend_automatic_detection(self):
         for adapter in available_adapters():
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
-                Path(data, "config.json").write_text(json.dumps({"auto_detect": False}))
+                Path(data, "config.json").write_text(
+                    json.dumps({"auto_detect": False}), encoding="utf-8"
+                )
                 self.assertEqual(run_hook(adapter, "negative-en.json", data).stdout, "")
                 self.assertIn(HARD_TRIGGER_TEXT, run_hook(adapter, "explicit.json", data).stdout)
             with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
                 Path(data, "config.json").write_text(
-                    json.dumps({"additional_phrases": ["Please reconsider"]})
+                    json.dumps({"additional_phrases": ["Please reconsider"]}),
+                    encoding="utf-8",
                 )
                 result = run_hook(adapter, "custom.json", data)
                 self.assertIn(SOFT_TRIGGER_TEXT, result.stdout)

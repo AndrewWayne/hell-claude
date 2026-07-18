@@ -1,3 +1,4 @@
+import ast
 import json
 import unittest
 from pathlib import Path
@@ -8,10 +9,31 @@ PLUGIN = ROOT / "plugins/hell-claude"
 
 
 class PluginMetadataTests(unittest.TestCase):
+    def test_client_tests_use_explicit_utf8_for_text_files(self):
+        missing = []
+        for filename in (
+            "test_plugin_metadata.py",
+            "test_hook_contract.py",
+            "test_skill_contract.py",
+        ):
+            path = ROOT / "tests" / filename
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=filename)
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                if not isinstance(node.func, ast.Attribute):
+                    continue
+                if node.func.attr not in {"read_text", "write_text"}:
+                    continue
+                keywords = {keyword.arg for keyword in node.keywords}
+                if "encoding" not in keywords:
+                    missing.append(f"{filename}:{node.lineno}")
+        self.assertEqual(missing, [])
+
     def read_json(self, relative_path):
         path = PLUGIN / relative_path
         self.assertTrue(path.is_file(), f"missing {relative_path}")
-        return json.loads(path.read_text())
+        return json.loads(path.read_text(encoding="utf-8"))
 
     def test_manifests_share_identity(self):
         codex = self.read_json(".codex-plugin/plugin.json")
@@ -21,7 +43,7 @@ class PluginMetadataTests(unittest.TestCase):
         self.assertEqual(codex["version"], claude["version"])
         self.assertEqual(codex["version"], "0.1.1")
         self.assertRegex(codex["version"], r"^\d+\.\d+\.\d+$")
-        skill = (PLUGIN / "skills/hell-report/SKILL.md").read_text()
+        skill = (PLUGIN / "skills/hell-report/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("## Client Version\n0.1.1", skill)
 
     def test_codex_manifest_uses_supported_fields_and_default_hook_discovery(self):
@@ -65,10 +87,10 @@ class PluginMetadataTests(unittest.TestCase):
 
     def test_both_marketplaces_publish_the_same_nested_plugin(self):
         codex = json.loads(
-            (ROOT / ".agents/plugins/marketplace.json").read_text()
+            (ROOT / ".agents/plugins/marketplace.json").read_text(encoding="utf-8")
         )
         claude = json.loads(
-            (ROOT / ".claude-plugin/marketplace.json").read_text()
+            (ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
         )
         self.assertEqual(codex["name"], "hell-claude")
         self.assertEqual(claude["name"], "hell-claude")
@@ -84,7 +106,7 @@ class PluginMetadataTests(unittest.TestCase):
     def test_client_ci_runs_linux_and_windows_contracts(self):
         path = ROOT / ".github/workflows/client-plugin-tests.yml"
         self.assertTrue(path.is_file(), "missing client plugin CI workflow")
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         self.assertIn("ubuntu-latest", text)
         self.assertIn("windows-latest", text)
         self.assertIn("tests.test_hook_contract", text)

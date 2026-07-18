@@ -10,7 +10,7 @@ class SkillContractTests(unittest.TestCase):
     def read_skill(self):
         path = PLUGIN / "skills/hell-report/SKILL.md"
         self.assertTrue(path.is_file(), "missing skills/hell-report/SKILL.md")
-        return path.read_text()
+        return path.read_text(encoding="utf-8")
 
     def test_skill_has_valid_discovery_metadata(self):
         text = self.read_skill()

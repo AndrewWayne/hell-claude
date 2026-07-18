@@ -10,7 +10,7 @@ Result: **10/10 mandatory criteria passed.** Native PowerShell and live-client c
 
 ```text
 python3 -m unittest discover -s tests -v
-# Ran 44 tests ... OK
+# Ran 45 tests ... OK
 
 python3 .../plugin-creator/scripts/validate_plugin.py plugins/hell-claude
 # Plugin validation passed
