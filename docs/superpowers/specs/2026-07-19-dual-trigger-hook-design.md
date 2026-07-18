@@ -17,9 +17,9 @@ The Hook has two outputs:
 
 The default phrase list adds these exact case-insensitive substring rules:
 
-`WTF`, `silly`, `stupid`, `are you crazy`, `what're you doing`, `ruin it`, `go die`, `他妈`, `傻逼`, `煞笔`, `脑残`, and `去死`.
+`WTF`, `silly`, `stupid`, `are you crazy`, `what're you doing`, `ruin it`, `go die`, `他妈`, `傻逼`, `煞笔`, `脑残`, `去死`, and `操`.
 
-The user supplied 12 new phrases. Existing phrases remain unchanged. Duplicate normalized entries are forbidden.
+The user supplied 13 new phrases. Existing phrases remain unchanged. Duplicate normalized entries are forbidden.
 
 ## Soft-trigger behavior
 
@@ -54,7 +54,7 @@ Bash and PowerShell adapters must emit semantically identical hard- and soft-tri
 
 Tests must first fail against the current implementation, then prove:
 
-- all 12 new phrases trigger the soft path;
+- all 13 new phrases trigger the soft path;
 - automatic matches never emit the hard-trigger instruction;
 - `/hell` always emits the hard-trigger instruction and bypasses cooldown;
 - custom phrases use the soft path;

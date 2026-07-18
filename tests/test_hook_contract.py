@@ -142,6 +142,7 @@ class HookContractTests(unittest.TestCase):
             "煞笔",
             "脑残",
             "去死",
+            "操",
         ]
         for adapter in available_adapters():
             for index, phrase in enumerate(phrases):

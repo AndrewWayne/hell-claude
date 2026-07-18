@@ -4,7 +4,7 @@ This is the pre-development completion gate for the 2026-07-19 Hook behavior cha
 
 | ID | Requirement | Passing evidence |
 | --- | --- | --- |
-| D01 | Phrase expansion | The packaged list contains all 12 requested phrases exactly once after case-folding. |
+| D01 | Phrase expansion | The packaged list contains all 13 requested phrases exactly once after case-folding. |
 | D02 | New phrase behavior | Every requested phrase produces a soft-trigger output through the real POSIX adapter and through PowerShell when available. |
 | D03 | Hard trigger | `/hell` produces the immediate Skill instruction on repeated calls and bypasses cooldown. |
 | D04 | Soft trigger | Automatic and custom phrases emit only the major-mistake assessment instruction, never the immediate Skill instruction. |

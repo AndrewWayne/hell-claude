@@ -47,6 +47,7 @@ class PluginMetadataTests(unittest.TestCase):
             "煞笔",
             "脑残",
             "去死",
+            "操",
         }
         self.assertEqual(rules["version"], 1)
         self.assertEqual(rules["cooldown_seconds"], 300)

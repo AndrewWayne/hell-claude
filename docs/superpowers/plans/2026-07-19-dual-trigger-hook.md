@@ -12,7 +12,7 @@
 
 - `/hell` immediately invokes `hell-report`, bypasses cooldown, and authorizes local drafting only.
 - Automatic and custom phrase matches never invoke the Skill directly.
-- The 12 requested phrases use the existing case-insensitive substring semantics.
+- The 13 requested phrases use the existing case-insensitive substring semantics.
 - A soft match is not proof of a major mistake.
 - Hell Claude alone must not stall the user's active task.
 - Draft permission and submission permission are separate explicit gates.
@@ -80,9 +80,9 @@ Expected: FAIL because the current Skill has one submission gate but no soft-tri
 - Hard output: immediate local draft through `hell-report`, complete preview, separate explicit submission confirmation.
 - Soft output: continue active task, assess concrete major mistake, ask for draft permission only when warranted, invoke Skill only after yes, and keep submission separately gated.
 
-- [ ] **Step 1: Add the 12 phrases**
+- [ ] **Step 1: Add the 13 phrases**
 
-Append `WTF`, `silly`, `stupid`, `are you crazy`, `what're you doing`, `ruin it`, `go die`, `他妈`, `傻逼`, `煞笔`, `脑残`, and `去死` to `phrases.json`, preserving uniqueness after case-folding.
+Append `WTF`, `silly`, `stupid`, `are you crazy`, `what're you doing`, `ruin it`, `go die`, `他妈`, `傻逼`, `煞笔`, `脑残`, `去死`, and `操` to `phrases.json`, preserving uniqueness after case-folding.
 
 - [ ] **Step 2: Split adapter output by trigger type**
 

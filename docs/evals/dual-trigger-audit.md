@@ -33,7 +33,7 @@ All 11 tracked JSON files except the deliberately malformed fail-open fixture an
 
 | ID | Result | Evidence |
 | --- | --- | --- |
-| D01 | PASS | `test_phrase_rules_are_unique` verifies all 12 requested case-folded phrases and uniqueness. |
+| D01 | PASS | `test_phrase_rules_are_unique` verifies all 13 requested case-folded phrases and uniqueness. |
 | D02 | PASS | `test_requested_phrases_use_the_soft_trigger` feeds every phrase through the real adapter contract. POSIX ran locally; the same test targets PowerShell in Windows CI. |
 | D03 | PASS | `test_automatic_trigger_cools_down_but_explicit_trigger_does_not` verifies repeated `/hell` hard triggers. |
 | D04 | PASS | Required, automatic, and custom-configuration tests distinguish hard and soft output and reject immediate Skill output for phrase matches. |
