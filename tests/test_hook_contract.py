@@ -155,6 +155,21 @@ class HookContractTests(unittest.TestCase):
                     self.assertIn(SOFT_TRIGGER_TEXT, result.stdout)
                     self.assertNotIn(HARD_TRIGGER_TEXT, result.stdout)
 
+    def test_soft_trigger_encodes_judgment_and_two_authorization_gates(self):
+        for adapter in available_adapters():
+            with self.subTest(adapter=adapter), tempfile.TemporaryDirectory() as data:
+                output = run_hook(adapter, "negative-en.json", data).stdout
+                required = [
+                    "phrase match alone is not proof",
+                    "do not stall it for Hell Claude",
+                    "Only an unambiguous yes authorizes local draft generation",
+                    "it does not authorize submission",
+                    "separate explicit confirmation",
+                ]
+                self.assertEqual(
+                    [value for value in required if value not in output], []
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

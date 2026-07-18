@@ -1,14 +1,14 @@
 # Hell Claude MVP Acceptance Audit
 
-Date: 2026-07-18
+Date: 2026-07-19
 
-Result: **28/28 mandatory criteria passed.** The three advisory live-environment checks remain unverified and do not block the MVP.
+Result: **28/28 mandatory criteria passed.** The three advisory live-environment checks remain unverified and do not block the MVP. The version 0.1.1 dual-trigger change is additionally covered by [the D01–D10 audit](dual-trigger-audit.md).
 
 ## Verification commands
 
 ```text
 python3 -m unittest discover -s tests -v
-# Ran 40 tests ... OK
+# Ran 44 tests ... OK
 
 python3 .../plugin-creator/scripts/validate_plugin.py plugins/hell-claude
 # Plugin validation passed
@@ -56,7 +56,7 @@ All tracked JSON files except the deliberately malformed fail-open fixture were 
 | E23 | PASS | README documentation contract passes. |
 | E24 | PASS | Codex and Claude Code guides cover macOS, Linux, Windows, Hook trust, `/hell`, update, and uninstall. |
 | E25 | PASS | Privacy and contribution contracts cover consent, deletion, Git history, fictional fixtures, and MIT contribution terms. |
-| E26 | PASS | Full suite: 40 tests, 0 failures, 0 errors. |
+| E26 | PASS | Full suite: 44 tests, 0 failures, 0 errors. |
 | E27 | PASS | Diff, JSON/YAML, plugin, Skill, marketplace, shell syntax, placeholder, and credential scans pass. |
 | E28 | PASS | End-to-end test creates a fictional record, README update, Agent index, and archived result; sensitive input creates no record. |
 
