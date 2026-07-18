@@ -1,0 +1,50 @@
+name: Client plugin tests
+
+on:
+  push:
+    paths:
+      - ".codex-plugin/**"
+      - ".claude-plugin/**"
+      - "hooks/**"
+      - "skills/**"
+      - "tests/test_hook_contract.py"
+      - "tests/test_plugin_metadata.py"
+      - "tests/test_skill_contract.py"
+      - ".github/workflows/client-plugin-tests.yml"
+  pull_request:
+    paths:
+      - ".codex-plugin/**"
+      - ".claude-plugin/**"
+      - "hooks/**"
+      - "skills/**"
+      - "tests/**"
+      - ".github/workflows/client-plugin-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install jq on Linux
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Run client contract tests
+        run: >-
+          python -m unittest
+          tests.test_plugin_metadata
+          tests.test_hook_contract
+          tests.test_skill_contract
+          -v

@@ -1,0 +1,22 @@
+{
+  "name": "hell-claude",
+  "version": "0.1.0",
+  "description": "Collect user-approved reports of poor coding-agent behavior.",
+  "author": {
+    "name": "Shenhao Miao",
+    "url": "https://github.com/AndrewWayne"
+  },
+  "repository": "https://github.com/AndrewWayne/hell-claude",
+  "license": "MIT",
+  "keywords": ["agent", "feedback", "codex", "claude-code"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Hell Claude",
+    "shortDescription": "Report poor coding-agent behavior.",
+    "longDescription": "Build a privacy-reviewed failure report and submit it only after explicit user confirmation.",
+    "developerName": "Shenhao Miao",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Create a local Hell report draft for this agent failure."]
+  }
+}
