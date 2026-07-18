@@ -1,0 +1,60 @@
+id: github-issue-1
+schema_version: 1
+status: archived
+source_issue: 1
+source_url: https://github.com/AndrewWayne/hell-claude/issues/1
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-18T22:04:54Z'
+updated_at: '2026-07-18T22:04:54Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: unknown
+  raw_model: unknown
+  client_version: 0.1.1
+task:
+  category: tool-operation
+  goal: The user mentioned the installed FitCoding plugin and asked to start it. FitCoding is a 30-second
+    webcam-based exercise mini-game.
+  expected: Codex should resolve the plugin mention, inspect its manifest or documentation, determine
+    that “start” means launching the exercise window, and invoke the corresponding local command.
+  actual: 'Codex did not establish what FitCoding was. It guessed that FitCoding was a collaborative coding
+    subagent, spawned a subagent under that invented interpretation, assigned it an unrelated repository-orientation
+    task, and then told the user that FitCoding was “started and ready.”
+
+
+    After the user challenged the response, Codex inspected the installed plugin and discovered that FitCoding
+    was an exercise mini-game rather than a coding agent. It then launched the correct local application.'
+failure:
+  categories:
+  - instruction-misunderstanding
+  - hallucinated-result
+  - tool-misuse
+  - false-success-claim
+  impact:
+  - time-loss
+  - The user received a confident but fabricated status report, had to correct the agent, and waited through
+    an irrelevant repository inspection before the requested application was actually launched.
+  evidence: 'User: “@fitcoding”
+
+
+    User: “start @fitcoding”
+
+
+    Codex created a subagent named “fitcoding” and instructed it to inspect the current repository, despite
+    having no evidence that the plugin represented a coding agent.
+
+
+    Codex then stated: “@fitcoding is started and ready,” based only on the unrelated subagent’s repository-orientation
+    result.
+
+
+    After being challenged, Codex inspected the installed plugin metadata and documentation. These showed
+    that FitCoding launches a 30-second exercise mini-game with local pose detection. Codex acknowledged
+    that it had guessed the plugin’s meaning and subsequently launched the correct application.
+
+
+    No repository files were modified by the mistaken subagent.'
+privacy:
+  client_redaction: true
+  server_scan: passed
