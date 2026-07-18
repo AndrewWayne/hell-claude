@@ -16,7 +16,7 @@ claude plugin marketplace add AndrewWayne/hell-claude
 claude plugin install hell-claude@hell-claude
 ```
 
-Restart Claude Code or run `/reload-plugins`. Review the marketplace and inspect the Hook before you trust it: plugins can run local commands with your user permissions. The package selects Bash on macOS/Linux and PowerShell on Windows.
+Restart Claude Code or run `/reload-plugins`. Open `/hooks` to inspect the Hook before you trust it: plugins can run local commands with your user permissions. The package selects Bash on macOS/Linux and PowerShell on Windows.
 
 ## Verify
 

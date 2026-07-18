@@ -15,7 +15,7 @@ On macOS, Linux, or Windows, add this repository as a marketplace:
 codex plugin marketplace add AndrewWayne/hell-claude
 ```
 
-Restart the ChatGPT desktop app, open the Plugins Directory, choose the Hell Claude marketplace, and install Hell Claude. Inspect the requested Hook command before you trust and enable it. The POSIX adapter runs on macOS/Linux; Windows uses the packaged PowerShell adapter.
+Restart the ChatGPT desktop app, open the Plugins Directory, choose the Hell Claude marketplace, and install Hell Claude. In the Codex CLI, open `/hooks`, inspect the requested command, and trust it before enabling it. The POSIX adapter runs on macOS/Linux; Windows uses the packaged PowerShell adapter.
 
 ## Verify
 

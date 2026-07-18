@@ -72,6 +72,20 @@ class SkillContractTests(unittest.TestCase):
         text = self.read_skill()
         self.assertIn('--title "[Hell] TITLE"', text)
 
+    def test_confirmation_gate_precedes_every_submission_path(self):
+        text = self.read_skill()
+        confirm = text.index("## Confirm")
+        submit = text.index("## Submit")
+        self.assertLess(confirm, submit)
+        gate = text[confirm:submit]
+        for value in (
+            "Only an explicit confirmation",
+            "ambiguous reply",
+            "On cancel",
+            "perform no network action",
+        ):
+            self.assertIn(value, gate)
+
 
 if __name__ == "__main__":
     unittest.main()

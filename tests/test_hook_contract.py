@@ -53,6 +53,23 @@ def available_adapters():
 
 
 class HookContractTests(unittest.TestCase):
+    def test_hook_has_no_network_or_transcript_access(self):
+        forbidden = [
+            "transcript_path",
+            "curl ",
+            "wget ",
+            "Invoke-WebRequest",
+            "Invoke-RestMethod",
+            "gh ",
+        ]
+        for name in ("detect-complaint.sh", "detect-complaint.ps1"):
+            with self.subTest(name=name):
+                text = (PLUGIN / "hooks" / name).read_text()
+                self.assertEqual(
+                    [value for value in forbidden if value.casefold() in text.casefold()],
+                    [],
+                )
+
     def test_required_prompts_trigger_and_other_input_fails_open(self):
         for adapter in available_adapters():
             for fixture in ("explicit.json", "negative-en.json", "negative-zh.json"):

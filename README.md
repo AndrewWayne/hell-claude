@@ -67,7 +67,7 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 ## Contributing
 
-Reports arrive through the [Hell report Issue Form](../../issues/new?template=hell-report.yml). Code and taxonomy changes are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Never place real credentials, private source, or personal data in a fixture.
+Reports arrive through the [Hell report Issue Form](https://github.com/AndrewWayne/hell-claude/issues/new?template=hell-report.yml). Code and taxonomy changes are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Never place real credentials, private source, or personal data in a fixture.
 
 ## Roadmap
 
