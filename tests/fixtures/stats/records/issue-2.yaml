@@ -1,0 +1,26 @@
+id: github-issue-2
+schema_version: 1
+status: archived
+source_issue: 2
+source_url: https://github.com/AndrewWayne/hell-claude/issues/2
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-17T10:00:00Z'
+updated_at: '2026-07-17T10:00:00Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: gpt-example
+  raw_model: gpt-example
+  client_version: 0.1.0
+task:
+  category: coding
+  goal: Add a fictional parser.
+  expected: Preserve existing input.
+  actual: Deleted an unrelated fixture.
+failure:
+  categories: [incorrect-code, destructive-action]
+  impact: [file-changes]
+  evidence: Fictional evidence.
+privacy:
+  client_redaction: true
+  server_scan: passed

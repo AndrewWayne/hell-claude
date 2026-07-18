@@ -1,0 +1,26 @@
+id: github-issue-3
+schema_version: 1
+status: archived
+source_issue: 3
+source_url: https://github.com/AndrewWayne/hell-claude/issues/3
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-18T10:00:00Z'
+updated_at: '2026-07-18T10:00:00Z'
+agent:
+  framework: claude-code
+  raw_name: Claude Code
+  model: claude|example
+  raw_model: claude|example
+  client_version: 0.1.0
+task:
+  category: explanation
+  goal: Explain a fictional module.
+  expected: Describe the module.
+  actual: Invented a dependency.
+failure:
+  categories: [hallucinated-result]
+  impact: [time-loss]
+  evidence: Fictional evidence.
+privacy:
+  client_redaction: true
+  server_scan: passed
