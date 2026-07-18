@@ -22,6 +22,7 @@ class DocumentationContractTests(unittest.TestCase):
             "Roadmap",
             "<!-- HELL-STATS:START -->",
             "<!-- HELL-STATS:END -->",
+            "assets/hell-history.svg",
             "docs/install/codex.md",
             "docs/install/claude-code.md",
         ]

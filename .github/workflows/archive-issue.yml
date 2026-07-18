@@ -49,6 +49,7 @@ jobs:
           --readme "$GITHUB_WORKSPACE/README.md"
           --agents-dir "$GITHUB_WORKSPACE/docs/agents"
           --agents-config "$GITHUB_WORKSPACE/config/agents.yml"
+          --history-chart "$GITHUB_WORKSPACE/assets/hell-history.svg"
           --repository "$GITHUB_REPOSITORY"
       - name: Commit archived record and indexes
         if: steps.result.outputs.status == 'archived' && steps.result.outputs.changed == 'true'
@@ -57,7 +58,7 @@ jobs:
         run: |
           git config user.name "hell-claude[bot]"
           git config user.email "hell-claude[bot]@users.noreply.github.com"
-          git add -- "$RECORD_PATH" README.md docs/agents
+          git add -- "$RECORD_PATH" README.md docs/agents assets/hell-history.svg
           git commit -m "data: archive Issue #${{ github.event.issue.number }}"
           for attempt in 1 2 3; do
             git pull --rebase origin "${{ github.event.repository.default_branch }}"

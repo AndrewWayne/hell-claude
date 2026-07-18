@@ -15,11 +15,20 @@ def missing(name):
 
 
 aggregate = getattr(update_readme, "aggregate", missing("aggregate"))
+build_cumulative_history = getattr(
+    update_readme, "build_cumulative_history", missing("build_cumulative_history")
+)
+generate_history_chart = getattr(
+    update_readme, "generate_history_chart", missing("generate_history_chart")
+)
 generate_agent_indexes = getattr(
     update_readme, "generate_agent_indexes", missing("generate_agent_indexes")
 )
 load_records = getattr(update_readme, "load_records", missing("load_records"))
 render_stats = getattr(update_readme, "render_stats", missing("render_stats"))
+render_history_svg = getattr(
+    update_readme, "render_history_svg", missing("render_history_svg")
+)
 replace_generated_region = getattr(
     update_readme, "replace_generated_region", missing("replace_generated_region")
 )
@@ -61,6 +70,43 @@ class StatsTests(unittest.TestCase):
         self.assertIn(r"claude\|example", rendered)
         self.assertIn("[#3](https://github.com/AndrewWayne/hell-claude/issues/3)", rendered)
         self.assertLess(rendered.index("[#3]"), rendered.index("[#2]"))
+        self.assertIn(
+            "![Cumulative Hell reports by harness](assets/hell-history.svg)",
+            rendered,
+        )
+
+    def test_cumulative_history_never_decreases(self):
+        dates, series = build_cumulative_history(load_records(FIXTURES), AGENTS)
+        self.assertEqual(
+            dates,
+            ["2026-07-15", "2026-07-16", "2026-07-17", "2026-07-18"],
+        )
+        self.assertEqual(series["codex"], [0, 1, 2, 2])
+        self.assertEqual(series["claude-code"], [0, 0, 0, 1])
+        self.assertEqual(series["pi"], [0, 0, 0, 0])
+        for values in series.values():
+            self.assertEqual(values, sorted(values))
+
+    def test_history_svg_is_deterministic_and_names_every_harness(self):
+        records = load_records(FIXTURES)
+        display_names = {agent: agent.replace("-", " ").title() for agent in AGENTS}
+        first = render_history_svg(records, display_names)
+        self.assertEqual(first, render_history_svg(records, display_names))
+        self.assertIn("<svg", first)
+        self.assertIn("Cumulative Hell reports by harness", first)
+        self.assertIn('data-agent="codex"', first)
+        self.assertIn('data-agent="pi"', first)
+        for name in display_names.values():
+            self.assertIn(name, first)
+
+    def test_history_chart_write_is_idempotent(self):
+        records = load_records(FIXTURES)
+        display_names = {agent: agent.replace("-", " ").title() for agent in AGENTS}
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "assets/hell-history.svg"
+            self.assertTrue(generate_history_chart(records, display_names, target))
+            self.assertTrue(target.is_file())
+            self.assertFalse(generate_history_chart(records, display_names, target))
 
     def test_replace_changes_only_one_marker_region(self):
         document = "before\n<!-- HELL-STATS:START -->\nold\n<!-- HELL-STATS:END -->\nafter\n"

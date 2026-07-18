@@ -40,7 +40,11 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 **Archived reports:** 2
 
-**Last generated:** 2026-07-18T22:09:37Z
+**Last generated:** 2026-07-18T22:22:53Z
+
+### Cumulative reports by harness
+
+![Cumulative Hell reports by harness](assets/hell-history.svg)
 
 ### Agents
 
