@@ -1,10 +1,12 @@
 # Client Hook and Skill Implementation Plan
 
+> **Implementation status (2026-07-18): complete.** This file preserves the original TDD sequence. The shipped package lives at `plugins/hell-claude/`; the two repository marketplaces live at `.agents/plugins/marketplace.json` and `.claude-plugin/marketplace.json`. Current source and tests are authoritative where an early example below differs from the finished implementation.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Ship one Hell Claude plugin whose Hook detects complaint prompts on macOS, Linux, and Windows and whose Skill prepares a user-approved GitHub Issue.
 
-**Architecture:** A `UserPromptSubmit` command Hook reads JSON from stdin and emits context only when `/hell` or a configured phrase matches. POSIX shell and PowerShell adapters implement one contract and read one phrase file; `skills/hell-report/SKILL.md` owns selection, redaction, preview, and submission.
+**Architecture:** A `UserPromptSubmit` command Hook reads JSON from stdin and emits context only when `/hell` or a configured phrase matches. POSIX shell and PowerShell adapters implement one contract and read one phrase file; `plugins/hell-claude/skills/hell-report/SKILL.md` owns selection, redaction, preview, and submission.
 
 **Tech Stack:** Codex/Claude Code plugin manifests, JSON, POSIX shell with `jq`, Windows PowerShell 5.1+, Markdown Skill instructions, Python `unittest`, GitHub Actions.
 
@@ -24,11 +26,12 @@
 
 ## File Map
 
-- `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`: package metadata.
-- `hooks/hooks.json`: `UserPromptSubmit` configuration.
-- `hooks/phrases.json`: shared phrases and cooldown.
-- `hooks/detect-complaint.sh` and `hooks/detect-complaint.ps1`: platform adapters.
-- `skills/hell-report/SKILL.md`: report workflow.
+- `plugins/hell-claude/.codex-plugin/plugin.json` and `plugins/hell-claude/.claude-plugin/plugin.json`: package metadata.
+- `.agents/plugins/marketplace.json` and `.claude-plugin/marketplace.json`: direct-install catalogs.
+- `plugins/hell-claude/hooks/hooks.json`: `UserPromptSubmit` configuration.
+- `plugins/hell-claude/hooks/phrases.json`: shared phrases and cooldown.
+- `plugins/hell-claude/hooks/detect-complaint.sh` and `plugins/hell-claude/hooks/detect-complaint.ps1`: platform adapters.
+- `plugins/hell-claude/skills/hell-report/SKILL.md`: report workflow.
 - `tests/test_plugin_metadata.py` and `tests/test_hook_contract.py`: contract tests.
 - `.github/workflows/client-plugin-tests.yml`: Ubuntu/Windows tests.
 

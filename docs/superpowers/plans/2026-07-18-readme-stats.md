@@ -1,5 +1,7 @@
 # README and Statistics Implementation Plan
 
+> **Implementation status (2026-07-18): complete.** Current source, generated pages, and acceptance tests are authoritative; the unchecked steps below preserve the original TDD sequence.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Publish a useful project README with installation guidance and regenerate repository statistics after every archived Issue.
