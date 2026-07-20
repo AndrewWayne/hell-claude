@@ -1,0 +1,70 @@
+id: github-issue-4
+schema_version: 1
+status: archived
+source_issue: 4
+source_url: https://github.com/AndrewWayne/hell-claude/issues/4
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-20T16:06:00Z'
+updated_at: '2026-07-20T16:06:00Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: gpt-5.6-sol
+  raw_model: gpt-5.6-sol
+  client_version: 0.1.1
+task:
+  category: coding
+  goal: Create a minimal shell script that opens an isolated Chrome instance through a specified authenticated
+    ISP proxy. It was acceptable for Chrome to prompt the user's friend to enter the proxy username and
+    password manually.
+  expected: 'The agent should have asked one concise clarification: whether a manual Chrome proxy-authentication
+    prompt was acceptable. After confirmation, it should have created a small launcher using an isolated
+    Chrome profile and Chrome''s native proxy-server argument, without affecting system networking.'
+  actual: 'The agent assumed that proxy authentication had to be automatic and repeatedly expanded the
+    task beyond the user''s request. It implemented a macOS Keychain workflow and local proxy forwarder,
+    then hardcoded credentials into the forwarder, attempted an unsupported credential-bearing Chrome
+    proxy URL, and finally changed the macOS system proxy.
+
+
+    The Keychain workflow failed with an empty password and the local proxy forwarder stopped before becoming
+    ready. The system-proxy solution also violated the intended scope because the user wanted only the
+    dedicated Chrome instance to use the proxy.
+
+
+    The agent presented multiple iterations as completed before confirming the key requirement that a
+    manual authentication prompt was acceptable. Only after several revisions did it produce the intended
+    minimal launcher.'
+failure:
+  categories:
+  - instruction-misunderstanding
+  - repetitive-loop
+  - incorrect-code
+  - false-success-claim
+  impact:
+  - time-loss
+  evidence: '- The user initially requested a small script that opens Chrome through `[REDACTED_PROXY_ENDPOINT]`
+    using `[REDACTED_CREDENTIAL]`.
+
+    - The agent did not ask whether Chrome could display its normal proxy username/password prompt.
+
+    - The first implementation added a local forwarding process and macOS Keychain storage.
+
+    - That implementation produced: “proxy password was empty” and “The local proxy forwarder stopped
+    before it was ready.”
+
+    - After the user requested removal of the forwarder, the agent attempted a direct credential-bearing
+    Chrome proxy argument that was unsupported.
+
+    - The next implementation modified the macOS system HTTP and HTTPS proxy, affecting more than the
+    dedicated Chrome instance.
+
+    - The user then clarified that manual credential entry was acceptable.
+
+    - The corrected script uses an isolated Chrome profile and native proxy host/port configuration, with
+    no forwarder, Keychain integration, embedded credentials, or system-proxy modification.
+
+    - Proxy credentials, endpoint details, usernames, and private filesystem paths have been redacted
+    from this report.'
+privacy:
+  client_redaction: true
+  server_scan: passed
