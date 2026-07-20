@@ -1,0 +1,62 @@
+id: github-issue-3
+schema_version: 1
+status: archived
+source_issue: 3
+source_url: https://github.com/AndrewWayne/hell-claude/issues/3
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-20T15:26:35Z'
+updated_at: '2026-07-20T15:26:35Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: unknown
+  raw_model: unknown
+  client_version: 0.1.1
+task:
+  category: coding
+  goal: 'Develop a frontier_optical_systems multimodal problem family whose figures contain 30+ optical
+    components, use diverse physical device types, and are genuinely necessary for solving hard frontier-optics
+    questions. The apparatus renderer should follow the visual language of the provided reference: reliable
+    optical-path layout, recognizable device symbols, and physically legible paths rather than a flowchart.'
+  expected: Inspect the reference figure, define strict optical-layout requirements, and implement a real
+    automatic layout system that routes sampled optical graphs with physically meaningful component placement,
+    orientations, ports, branches, crossings, reflections, and labels. The renderer should not be locked
+    to a four-lane stage grid or merely decorate a flowchart with optical glyphs.
+  actual: 'The implementation replaced generic rounded boxes with many device-specific glyphs but retained
+    a fixed four-lane, eight-column grid with small deterministic jitter. Auxiliary paths were routed
+    through hand-coded orthogonal corridors and decorated with unlabelled fold mirrors. This improved
+    the iconography but did not solve automatic optical-path layout. The agent then described the renderer
+    as using “real optical schematic language” and launched large-scale pixel evaluation before the layout
+    quality met the user''s requirement.
+
+
+    Relevant implementation effects are concentrated in:
+
+    - agentic_skills/frontier_optical_systems/scripts/core/layout.py
+
+    - agentic_skills/frontier_optical_systems/scripts/optical_glyphs.py
+
+    - agentic_skills/frontier_optical_systems/scripts/render.py'
+failure:
+  categories:
+  - instruction-misunderstanding
+  - incorrect-code
+  impact:
+  - time-loss
+  evidence: 'The user first stated that the renderer was wrong and that the final optical path must have
+    reliable layout and device styling, “而不是现在这样一个单纯的流程图”.
+
+
+    The implementation''s layout remained based on fixed column and lane coordinates plus a small set
+    of jitter patterns, so the underlying composition was still a decorated grid rather than a general
+    optical-layout engine.
+
+
+    The user then corrected the result explicitly: “你先走完完整流程，我待会儿会叫你把整个光路layout自动布局的工具严格的重写。你现在这个layout写的跟大便一样”.
+
+
+    The current correction is to freeze this layout, finish the rest of the end-to-end pipeline honestly,
+    mark automatic layout as requiring a strict rewrite, and avoid claiming the present renderer is production-ready.'
+privacy:
+  client_redaction: true
+  server_scan: passed
