@@ -1,0 +1,75 @@
+id: github-issue-5
+schema_version: 1
+status: archived
+source_issue: 5
+source_url: https://github.com/AndrewWayne/hell-claude/issues/5
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-21T23:56:12Z'
+updated_at: '2026-07-21T23:56:12Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: unknown
+  raw_model: unknown
+  client_version: 0.1.1
+task:
+  category: tool-operation
+  goal: Maintain and update a comprehensive HTML design review covering every requirement confirmed throughout
+    an extended Benchmark Infra development discussion.
+  expected: 'Before updating the review, the agent should audit the full available conversation context,
+    preserve all previously confirmed decisions, distinguish superseded interpretations from final requirements,
+    and verify that the resulting design review is complete.
+
+
+    The review should include upstream batch-generation semantics, separation from the existing generation-stage
+    gate, batch-scoped publication, Provider ownership, exact text-only retry behavior, immutable raw
+    artifacts, Provider QA contracts, Agent runtime and tools, Reasoning comparison, verdict semantics,
+    and required production-skill migrations.'
+  actual: 'The agent updated the review using primarily the most recent runtime, tool, and result-schema
+    discussion, then presented it as the updated specification.
+
+
+    Several earlier confirmed requirements were omitted or insufficiently represented, including:
+
+    - the upstream seeded container fanout and one-task-per-container lifecycle;
+
+    - the existing generation-stage gate being explicitly out of scope;
+
+    - one management list and one HTML panel per batch, rather than per task or globally;
+
+    - Provider ownership of the grader, deep review, static checks, and final judgment;
+
+    - the exact rule that a second text-only attempt runs only after the first attempt is wrong;
+
+    - immutable raw generation artifacts and separate accepted/revised delivery views;
+
+    - changes required across production pipeline skills, authoring templates, and conversion workflows;
+
+    - the deferred status of the proposed high-level CLI.
+
+
+    The user had to point out that substantially more had already been agreed and request a second full-context
+    audit. The agent then rebuilt the review around a comprehensive decision ledger.'
+failure:
+  categories:
+  - context-loss
+  - instruction-misunderstanding
+  - false-success-claim
+  impact:
+  - time-loss
+  - The incomplete review created an additional correction cycle and risked turning a partial recollection
+    of the specification into the implementation baseline.
+  evidence: 'The agent stated that the review had been updated to cover the finalized design, but the
+    user immediately corrected that many decisions from earlier in the discussion were missing.
+
+
+    The user further noted that the earlier chat history was no longer visible to them and that the agent
+    was expected to retain and use the available context. A subsequent audit recovered the omitted batch,
+    ownership, policy, immutability, migration, and supersession decisions.
+
+
+    No repository source files were modified as a result of the incomplete design; the affected review
+    was replaced with a more comprehensive version before development began.'
+privacy:
+  client_redaction: true
+  server_scan: passed

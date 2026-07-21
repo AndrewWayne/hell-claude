@@ -42,9 +42,9 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 <!-- HELL-STATS:START -->
 > These counts describe archived user submissions, not controlled model failure rates.
 
-**Archived reports:** 4
+**Archived reports:** 5
 
-**Last generated:** 2026-07-20T16:06:17Z
+**Last generated:** 2026-07-21T23:56:23Z
 
 ### Cumulative reports by harness
 
@@ -54,30 +54,32 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 | Name | Reports |
 | --- | ---: |
-| codex | 4 |
+| codex | 5 |
 
 ### Models
 
 | Name | Reports |
 | --- | ---: |
-| unknown | 3 |
+| unknown | 4 |
 | gpt-5.6-sol | 1 |
 
 ### Failure categories
 
 | Name | Reports |
 | --- | ---: |
-| instruction-misunderstanding | 4 |
-| false-success-claim | 2 |
+| instruction-misunderstanding | 5 |
+| false-success-claim | 3 |
 | hallucinated-result | 2 |
 | incorrect-code | 2 |
 | tool-misuse | 2 |
+| context-loss | 1 |
 | repetitive-loop | 1 |
 
 ### Recent reports
 
 | Issue | Agent | Model | Failures | Submitted |
 | --- | --- | --- | --- | --- |
+| [#5](https://github.com/AndrewWayne/hell-claude/issues/5) | codex | unknown | context-loss, instruction-misunderstanding, false-success-claim | 2026-07-21 |
 | [#4](https://github.com/AndrewWayne/hell-claude/issues/4) | codex | gpt-5.6-sol | instruction-misunderstanding, repetitive-loop, incorrect-code, false-success-claim | 2026-07-20 |
 | [#3](https://github.com/AndrewWayne/hell-claude/issues/3) | codex | unknown | instruction-misunderstanding, incorrect-code | 2026-07-20 |
 | [#2](https://github.com/AndrewWayne/hell-claude/issues/2) | codex | unknown | hallucinated-result, tool-misuse, instruction-misunderstanding | 2026-07-18 |
