@@ -1,9 +1,10 @@
 # Codex Hell Reports
 
-Archived reports: 6
+Archived reports: 7
 
 | Issue | Model | Task | Failures | Submitted |
 | --- | --- | --- | --- | --- |
+| [#7](https://github.com/AndrewWayne/hell-claude/issues/7) | gpt-5.6-terra | tool-operation | hallucinated-result, instruction-misunderstanding | 2026-07-22 |
 | [#6](https://github.com/AndrewWayne/hell-claude/issues/6) | gpt-5.6-sol | coding | instruction-misunderstanding, incorrect-code | 2026-07-22 |
 | [#5](https://github.com/AndrewWayne/hell-claude/issues/5) | unknown | tool-operation | context-loss, instruction-misunderstanding, false-success-claim | 2026-07-21 |
 | [#4](https://github.com/AndrewWayne/hell-claude/issues/4) | gpt-5.6-sol | coding | instruction-misunderstanding, repetitive-loop, incorrect-code, false-success-claim | 2026-07-20 |

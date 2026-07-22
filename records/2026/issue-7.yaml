@@ -1,0 +1,39 @@
+id: github-issue-7
+schema_version: 1
+status: archived
+source_issue: 7
+source_url: https://github.com/AndrewWayne/hell-claude/issues/7
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-22T18:26:26Z'
+updated_at: '2026-07-22T18:26:26Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: gpt-5.6-terra
+  raw_model: gpt-5.6-terra
+  client_version: 0.1.1
+task:
+  category: tool-operation
+  goal: Reply accurately to an external agent's question about the user's experimental harness and COMSOL
+    work.
+  expected: Use established user context when available. If the capability status is uncertain, state
+    the uncertainty or ask the user rather than asserting an unverified negative claim before sending
+    an external message.
+  actual: 'The agent sent an external reply stating that no specific instrument-control harness had been
+    selected. The user later corrected this: the user already operates a harness connected to instruments
+    and has achieved autonomous experiments in several domains. The agent then sent a correction in the
+    same conversation.'
+failure:
+  categories:
+  - hallucinated-result
+  - instruction-misunderstanding
+  impact:
+  - An external counterpart received an inaccurate characterization of the user's technical capability.
+    The user had to provide the correction, and the agent had to issue a follow-up correction.
+  evidence: The prior external response made an unsupported statement about the absence of a selected
+    harness. The user's subsequent correction specified existing autonomous-instrument experiment capabilities,
+    the execution-versus-analysis performance boundary, and the separate incompleteness of the COMSOL
+    benchmark and closed loop.
+privacy:
+  client_redaction: true
+  server_scan: passed

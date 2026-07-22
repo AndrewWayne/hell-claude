@@ -42,9 +42,9 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 <!-- HELL-STATS:START -->
 > These counts describe archived user submissions, not controlled model failure rates.
 
-**Archived reports:** 6
+**Archived reports:** 7
 
-**Last generated:** 2026-07-22T01:34:11Z
+**Last generated:** 2026-07-22T18:26:38Z
 
 ### Cumulative reports by harness
 
@@ -54,7 +54,7 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 | Name | Reports |
 | --- | ---: |
-| codex | 6 |
+| codex | 7 |
 
 ### Models
 
@@ -62,15 +62,16 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 | --- | ---: |
 | unknown | 4 |
 | gpt-5.6-sol | 2 |
+| gpt-5.6-terra | 1 |
 
 ### Failure categories
 
 | Name | Reports |
 | --- | ---: |
-| instruction-misunderstanding | 6 |
+| instruction-misunderstanding | 7 |
 | false-success-claim | 3 |
+| hallucinated-result | 3 |
 | incorrect-code | 3 |
-| hallucinated-result | 2 |
 | tool-misuse | 2 |
 | context-loss | 1 |
 | repetitive-loop | 1 |
@@ -79,11 +80,11 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 | Issue | Agent | Model | Failures | Submitted |
 | --- | --- | --- | --- | --- |
+| [#7](https://github.com/AndrewWayne/hell-claude/issues/7) | codex | gpt-5.6-terra | hallucinated-result, instruction-misunderstanding | 2026-07-22 |
 | [#6](https://github.com/AndrewWayne/hell-claude/issues/6) | codex | gpt-5.6-sol | instruction-misunderstanding, incorrect-code | 2026-07-22 |
 | [#5](https://github.com/AndrewWayne/hell-claude/issues/5) | codex | unknown | context-loss, instruction-misunderstanding, false-success-claim | 2026-07-21 |
 | [#4](https://github.com/AndrewWayne/hell-claude/issues/4) | codex | gpt-5.6-sol | instruction-misunderstanding, repetitive-loop, incorrect-code, false-success-claim | 2026-07-20 |
 | [#3](https://github.com/AndrewWayne/hell-claude/issues/3) | codex | unknown | instruction-misunderstanding, incorrect-code | 2026-07-20 |
-| [#2](https://github.com/AndrewWayne/hell-claude/issues/2) | codex | unknown | hallucinated-result, tool-misuse, instruction-misunderstanding | 2026-07-18 |
 <!-- HELL-STATS:END -->
 
 ## Contributing
