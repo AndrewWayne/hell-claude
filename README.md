@@ -42,9 +42,9 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 <!-- HELL-STATS:START -->
 > These counts describe archived user submissions, not controlled model failure rates.
 
-**Archived reports:** 5
+**Archived reports:** 6
 
-**Last generated:** 2026-07-21T23:56:23Z
+**Last generated:** 2026-07-22T01:34:11Z
 
 ### Cumulative reports by harness
 
@@ -54,23 +54,23 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 | Name | Reports |
 | --- | ---: |
-| codex | 5 |
+| codex | 6 |
 
 ### Models
 
 | Name | Reports |
 | --- | ---: |
 | unknown | 4 |
-| gpt-5.6-sol | 1 |
+| gpt-5.6-sol | 2 |
 
 ### Failure categories
 
 | Name | Reports |
 | --- | ---: |
-| instruction-misunderstanding | 5 |
+| instruction-misunderstanding | 6 |
 | false-success-claim | 3 |
+| incorrect-code | 3 |
 | hallucinated-result | 2 |
-| incorrect-code | 2 |
 | tool-misuse | 2 |
 | context-loss | 1 |
 | repetitive-loop | 1 |
@@ -79,11 +79,11 @@ The schema accepts `claude-code`, `codex`, `opencode`, `forgecode`, `kimi-code`,
 
 | Issue | Agent | Model | Failures | Submitted |
 | --- | --- | --- | --- | --- |
+| [#6](https://github.com/AndrewWayne/hell-claude/issues/6) | codex | gpt-5.6-sol | instruction-misunderstanding, incorrect-code | 2026-07-22 |
 | [#5](https://github.com/AndrewWayne/hell-claude/issues/5) | codex | unknown | context-loss, instruction-misunderstanding, false-success-claim | 2026-07-21 |
 | [#4](https://github.com/AndrewWayne/hell-claude/issues/4) | codex | gpt-5.6-sol | instruction-misunderstanding, repetitive-loop, incorrect-code, false-success-claim | 2026-07-20 |
 | [#3](https://github.com/AndrewWayne/hell-claude/issues/3) | codex | unknown | instruction-misunderstanding, incorrect-code | 2026-07-20 |
 | [#2](https://github.com/AndrewWayne/hell-claude/issues/2) | codex | unknown | hallucinated-result, tool-misuse, instruction-misunderstanding | 2026-07-18 |
-| [#1](https://github.com/AndrewWayne/hell-claude/issues/1) | codex | unknown | instruction-misunderstanding, hallucinated-result, tool-misuse, false-success-claim | 2026-07-18 |
 <!-- HELL-STATS:END -->
 
 ## Contributing

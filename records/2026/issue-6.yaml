@@ -1,0 +1,59 @@
+id: github-issue-6
+schema_version: 1
+status: archived
+source_issue: 6
+source_url: https://github.com/AndrewWayne/hell-claude/issues/6
+repository: AndrewWayne/hell-claude
+submitted_at: '2026-07-22T01:33:59Z'
+updated_at: '2026-07-22T01:33:59Z'
+agent:
+  framework: codex
+  raw_name: Codex
+  model: gpt-5.6-sol
+  raw_model: gpt-5.6-sol
+  client_version: 0.1.1
+task:
+  category: coding
+  goal: Implement the approved post-generation QA infrastructure for a Benchmark, verify that all evaluation
+    stages are correctly designed, pass the complete test suite, and run the credentialed real-API end-to-end
+    evaluation.
+  expected: The ablation solver should be a thin Responses API request. Its model-visible input should
+    contain only the problem question and, for the image-aided branch, the problem images. The Runner
+    should capture the ordinary answer text and the API-provided reasoning summary from the response,
+    then persist those as QA artifacts. Internal grader, artifact-registry, ablation, and QA concepts
+    must not be exposed to the solver.
+  actual: 'Codex initially implemented the solver with a structured `SolverResult` response schema and
+    model instructions that explicitly mentioned a “deterministic grader,” `final_answer`, `thinking_summary`,
+    evidence artifact IDs, and missing images. This confused the Runner-owned persistence contract with
+    the model-facing response contract and leaked evaluation mechanics into the evaluated solver prompt.
+
+
+    The affected implementation was in the new QA runtime module. No credentialed live E2E had been run
+    yet, so contaminated evaluation results were not shipped. The user identified the error during implementation.
+    Codex then removed the structured model-output requirement and changed the Runner to extract normal
+    response text and the Responses API reasoning-summary items.'
+failure:
+  categories:
+  - instruction-misunderstanding
+  - incorrect-code
+  impact:
+  - time-loss
+  - evaluation-integrity-risk
+  evidence: '- The approved Benchmark design required independent solver attempts and persisted reasoning
+    summaries without exposing reference answers, reference reasoning, task IDs, provenance, or implementation
+    details.
+
+    - Codex added a model-visible instruction containing: “final_answer must be the answer a deterministic
+    grader should inspect.”
+
+    - Codex also instructed the solver to emit `thinking_summary` and artifact-ID-based observations,
+    although those should have been captured or assembled by the Runner from the API response.
+
+    - The user correctly pointed out that the solver should simply receive the question and optional images,
+    while the Runner captures the returned reasoning summary and other response artifacts.
+
+    - Codex acknowledged that this would contaminate the text-only versus image-aided evaluation and removed
+    the model-facing schema and QA terminology before any live E2E run.'
+privacy:
+  client_redaction: true
+  server_scan: passed
